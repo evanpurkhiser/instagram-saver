@@ -5,17 +5,21 @@ import fp from 'fastify-plugin';
 interface EnvConfig {
   PORT: number;
   OPENAI_TOKEN: string;
+  GOOGLE_PLACES_API_KEY: string;
 }
 
 const schema: JSONSchemaType<EnvConfig> = {
   type: 'object',
-  required: ['PORT', 'OPENAI_TOKEN'],
+  required: ['PORT', 'OPENAI_TOKEN', 'GOOGLE_PLACES_API_KEY'],
   properties: {
     PORT: {
       type: 'number',
       default: 3006,
     },
     OPENAI_TOKEN: {
+      type: 'string',
+    },
+    GOOGLE_PLACES_API_KEY: {
       type: 'string',
     },
   },

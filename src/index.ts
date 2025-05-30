@@ -5,6 +5,7 @@ import {PinoLoggerOptions} from 'fastify/types/logger';
 
 import {configPlugin} from './config';
 import {router} from './controller';
+import {googlePlacesPlugin} from './google-places-plugin';
 import {openaiPlugin} from './openai-plugin';
 
 init({
@@ -36,6 +37,7 @@ async function boot() {
 
   await server.register(configPlugin).after();
   await server.register(openaiPlugin).after();
+  await server.register(googlePlacesPlugin).after();
 
   setupFastifyErrorHandler(server);
 

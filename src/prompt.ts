@@ -1,7 +1,7 @@
 import dedent from 'dedent';
 import OpenAI from 'openai';
 
-import {PlaceInfo, PostResponse} from './types';
+import {PlaceInfo, PlaceType, PostResponse} from './types';
 
 const PROMPT_PRELUDE = `
 You are a helpful instagram places assistant. You are given various pieces of
@@ -13,6 +13,23 @@ If the transcription apperas to be completely unrelated based on the caption,
 assume it is background music with vocals and ignore it!
 `.trim();
 
+const PLACE_TYPES = [
+  'restaurant',
+  'cafe',
+  'bar',
+  'gallery',
+  'museum',
+  'store',
+  'market',
+  'park',
+  'viewpoint',
+  'landmark',
+  'hotel',
+  'spa',
+  'studio',
+  'exhibit',
+] satisfies PlaceType[];
+
 const PLACE_PROPERTIES = {
   name: {
     type: 'string',
@@ -22,13 +39,14 @@ const PLACE_PROPERTIES = {
     type: ['string', 'null'],
     description: 'The full or partial address of the place, or null if unknown',
   },
-  whatToGet: {
+  placeType: {
     type: 'string',
-    description: 'A brief list of recommended items to order and why',
+    description: 'The category of place',
+    enum: PLACE_TYPES,
   },
-  cusineType: {
+  whatsGood: {
     type: 'string',
-    description: 'The type of cuisine (e.g., Thai, Japanese BBQ, Italian)',
+    description: 'A brief list of recommended items to order or things to see or do',
   },
   vibe: {
     type: 'string',
@@ -37,7 +55,7 @@ const PLACE_PROPERTIES = {
   },
   emoji: {
     type: 'string',
-    description: 'A single emoji representing the restaurant',
+    description: 'A single emoji representing the place',
   },
 } as const satisfies Record<keyof PlaceInfo, any>;
 
