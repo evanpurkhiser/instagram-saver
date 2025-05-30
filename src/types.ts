@@ -2,6 +2,7 @@ export interface InstagramInfo {
   caption: string;
   location: string;
   mediaUrl: string;
+  shortCode: string;
 }
 
 export interface PostResponse {

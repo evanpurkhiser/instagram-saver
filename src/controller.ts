@@ -40,7 +40,7 @@ export async function router(server: FastifyInstance) {
     const json = result.places.map((place, i) => ({
       ...place,
       googleMapsUrl: mapsUrls[i],
-      instagramUrl,
+      instagramUrl: `https://instagram.com/p/${info.shortCode}`,
     }));
 
     response.send(json);

@@ -84,7 +84,7 @@ async function doFetch(postUrl: string) {
     const location: string = item.location?.name;
     const mediaUrl: string = item.video_versions[0].url;
 
-    return {caption, location, mediaUrl};
+    return {caption, location, mediaUrl, shortCode};
   });
 
   // XXX: There can probably be more than one of these for not reels
