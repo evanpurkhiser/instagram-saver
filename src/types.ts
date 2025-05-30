@@ -15,14 +15,9 @@ export type PlaceType =
   | 'Gallery'
   | 'Museum'
   | 'Store'
-  | 'Market'
-  | 'Park'
-  | 'Viewpoint'
-  | 'Landmark'
-  | 'Hotel'
-  | 'Spa'
-  | 'Studio'
-  | 'Exhibit';
+  | 'Outdoors'
+  | 'Experience'
+  | 'Other';
 
 export interface PlaceInfo {
   name: string;

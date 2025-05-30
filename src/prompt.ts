@@ -20,14 +20,9 @@ const PLACE_TYPES = [
   'Gallery',
   'Museum',
   'Store',
-  'Market',
-  'Park',
-  'Viewpoint',
-  'Landmark',
-  'Hotel',
-  'Spa',
-  'Studio',
-  'Exhibit',
+  'Outdoors',
+  'Experience',
+  'Other',
 ] satisfies PlaceType[];
 
 const PLACE_PROPERTIES = {
