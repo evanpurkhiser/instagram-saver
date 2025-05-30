@@ -12,13 +12,14 @@ The output is a list of places:
 ```json
 [
   {
-    "name": "Bar Miller",
+    "name": "Chad NYC",
     "address": null,
     "placeType": "Restaurant",
-    "whatsGood": "Tagliatelle with uni, hand-rolled ziti, snow crab & togarashi lasagna, pasta dessert & caviar-topped ice cream",
-    "vibe": "Interactive pasta omakase collab with Don Angie",
-    "emoji": "🍝",
-    "googleMapsUrl": "https://maps.google.com/?cid=9530206366881422164"
+    "whatsGood": "Pandan-peanut gluten-free dumplings, beef tartare w/ coconut milk & rice chips, pan-seared duck breast red curry, fall-off-the-bone short rib curry, shrimp pad thai, GF fried rice, papaya salad with crab, coconut ice cream",
+    "vibe": "Gorgeous modern space with fun, photogenic cocktails",
+    "emoji": "🥟",
+    "googleMapsUrl": "https://maps.google.com/?cid=12110630138132854106",
+    "instagramUrl": "https://instagram.com/p/DKNy8qPOd6C"
   }
 ]
 ```
