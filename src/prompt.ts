@@ -14,20 +14,20 @@ assume it is background music with vocals and ignore it!
 `.trim();
 
 const PLACE_TYPES = [
-  'restaurant',
-  'cafe',
-  'bar',
-  'gallery',
-  'museum',
-  'store',
-  'market',
-  'park',
-  'viewpoint',
-  'landmark',
-  'hotel',
-  'spa',
-  'studio',
-  'exhibit',
+  'Restaurant',
+  'Cafe',
+  'Bar',
+  'Gallery',
+  'Museum',
+  'Store',
+  'Market',
+  'Park',
+  'Viewpoint',
+  'Landmark',
+  'Hotel',
+  'Spa',
+  'Studio',
+  'Exhibit',
 ] satisfies PlaceType[];
 
 const PLACE_PROPERTIES = {

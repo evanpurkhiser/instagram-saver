@@ -9,20 +9,20 @@ export interface PostResponse {
 }
 
 export type PlaceType =
-  | 'restaurant'
-  | 'cafe'
-  | 'bar'
-  | 'gallery'
-  | 'museum'
-  | 'store'
-  | 'market'
-  | 'park'
-  | 'viewpoint'
-  | 'landmark'
-  | 'hotel'
-  | 'spa'
-  | 'studio'
-  | 'exhibit';
+  | 'Restaurant'
+  | 'Cafe'
+  | 'Bar'
+  | 'Gallery'
+  | 'Museum'
+  | 'Store'
+  | 'Market'
+  | 'Park'
+  | 'Viewpoint'
+  | 'Landmark'
+  | 'Hotel'
+  | 'Spa'
+  | 'Studio'
+  | 'Exhibit';
 
 export interface PlaceInfo {
   name: string;

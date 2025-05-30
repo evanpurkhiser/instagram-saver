@@ -14,7 +14,7 @@ The output is a list of places:
   {
     "name": "Bar Miller",
     "address": null,
-    "placeType": "restaurant",
+    "placeType": "Restaurant",
     "whatsGood": "Tagliatelle with uni, hand-rolled ziti, snow crab & togarashi lasagna, pasta dessert & caviar-topped ice cream",
     "vibe": "Interactive pasta omakase collab with Don Angie",
     "emoji": "🍝",
