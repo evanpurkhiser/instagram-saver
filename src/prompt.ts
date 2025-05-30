@@ -76,7 +76,8 @@ const OUTPUT_SCHEMA = {
 
 export async function queryResponse(
   openai: OpenAI,
-  transcription: OpenAI.Audio.Transcriptions.Transcription,
+  transcription: string,
+  photos: Buffer[],
   instagramInfo: any
 ) {
   const placeDetails = dedent`
@@ -88,7 +89,13 @@ export async function queryResponse(
 
   **VIDEO TRANSCRIPTION**:
 
-  ${transcription.text}`.trim();
+  ${transcription}`.trim();
+
+  const images = photos.map<OpenAI.Responses.ResponseInputImage>(photo => ({
+    type: 'input_image',
+    image_url: `data:image/jpeg;base64,${photo.toString('base64')}`,
+    detail: 'low',
+  }));
 
   const response = await openai.responses.create({
     model: 'o4-mini',
@@ -99,7 +106,7 @@ export async function queryResponse(
       },
       {
         role: 'user',
-        content: [{type: 'input_text', text: placeDetails}],
+        content: [{type: 'input_text', text: placeDetails}, ...images],
       },
     ],
 

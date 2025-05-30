@@ -1,9 +1,20 @@
-export interface InstagramInfo {
+interface CommonInfo {
+  shortCode: string;
   caption: string;
   location: string;
-  mediaUrl: string;
-  shortCode: string;
 }
+
+interface InstagramReel extends CommonInfo {
+  type: 'video';
+  mediaUrl: string;
+}
+
+interface InstagramPosts extends CommonInfo {
+  type: 'post';
+  imageUrls: string[];
+}
+
+export type InstagramInfo = InstagramReel | InstagramPosts;
 
 export interface PostResponse {
   places: PlaceInfo[];

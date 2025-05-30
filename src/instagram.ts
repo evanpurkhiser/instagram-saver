@@ -86,12 +86,29 @@ async function doFetch(postUrl: string) {
   const data = items.map<InstagramInfo>((item: any) => {
     const caption: string = item.caption.text;
     const location: string = item.location?.name;
-    const mediaUrl: string = item.video_versions[0].url;
 
-    return {caption, location, mediaUrl, shortCode};
+    const common = {
+      caption,
+      location,
+      shortCode,
+    };
+
+    if ('video_version' in item) {
+      const mediaUrl: string = item.video_versions[0].url;
+
+      return {type: 'video', mediaUrl, ...common};
+    }
+
+    if ('carousel_media' in item) {
+      const imageUrls = item.carousel_media.map((media: any) => media.display_uri);
+
+      return {type: 'post', imageUrls, ...common};
+    }
+
+    throw new Error('Unknown media type');
   });
 
-  // XXX: There can probably be more than one of these for not reels
+  // XXX: Can there be more than one items?
   return data[0];
 }
 
