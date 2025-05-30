@@ -77,6 +77,10 @@ async function doFetch(postUrl: string) {
     throw new Error('shortcode__web_info missing');
   }
 
+  if (shortcodeInfo[0] === undefined) {
+    throw new Error('Shortcode info missing items dictionary');
+  }
+
   const items: Array<Record<string, any>> = shortcodeInfo[0]['items'];
 
   const data = items.map<InstagramInfo>((item: any) => {
