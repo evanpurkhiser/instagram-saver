@@ -5,16 +5,16 @@ import {fetchGoogleMapsUrl} from './places';
 import {queryResponse} from './prompt';
 import {extractAudioStream, fetchVideo, transcribeAudio} from './video';
 
-interface Querystring {
-  instagramUrl: string;
+interface Params {
+  ['*']: string;
 }
 
 // eslint-disable-next-line require-await
 export async function router(server: FastifyInstance) {
   const {log, openai} = server;
 
-  server.get<{Querystring: Querystring}>('/', async (request, response) => {
-    const instagramUrl = request.query['instagramUrl'];
+  server.get<{Params: Params}>('/i/*', async (request, response) => {
+    const instagramUrl = request.params['*'];
 
     log.info('Getting media info...');
     const info = await fetchgInstagramInfo(instagramUrl);
