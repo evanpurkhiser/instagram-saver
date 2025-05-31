@@ -10,6 +10,7 @@ import {openaiPlugin} from './openai-plugin';
 
 init({
   dsn: 'https://50ba4f0897fb12698407b88f62c5cfd9@o126623.ingest.us.sentry.io/4509410186231808',
+  tracesSampleRate: 1.0,
 });
 
 async function boot() {
