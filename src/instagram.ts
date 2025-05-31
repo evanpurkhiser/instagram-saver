@@ -32,8 +32,7 @@ function findKeyDeep(obj: any, targetKey: string): any | null {
 // Not sure how many of these are required, but definitely at least SOME are
 // for it to come back with the json blob as a script tag
 const headers = {
-  accept:
-    'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+  accept: 'text/html',
   'accept-language': 'en-US,en;q=0.9',
   'cache-control': 'max-age=0',
   referer: 'https://www.instagram.com/accounts/onetap/?next=%2F',
@@ -93,13 +92,13 @@ async function doFetch(postUrl: string) {
       shortCode,
     };
 
-    if ('video_version' in item) {
+    if (item.video_versions) {
       const mediaUrl: string = item.video_versions[0].url;
 
       return {type: 'video', mediaUrl, ...common};
     }
 
-    if ('carousel_media' in item) {
+    if (item.carousel_media) {
       const imageUrls = item.carousel_media.map((media: any) => media.display_uri);
 
       return {type: 'post', imageUrls, ...common};
@@ -113,5 +112,5 @@ async function doFetch(postUrl: string) {
 }
 
 export function fetchgInstagramInfo(postUrl: string) {
-  return pRetry(() => doFetch(postUrl), {retries: 5, shouldRetry: () => true});
+  return pRetry(() => doFetch(postUrl), {retries: 3, shouldRetry: () => true});
 }
