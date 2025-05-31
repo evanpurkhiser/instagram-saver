@@ -1,4 +1,5 @@
 import {init, setupFastifyErrorHandler} from '@sentry/node';
+import {nodeProfilingIntegration} from '@sentry/profiling-node';
 import {program} from 'commander';
 import fastify, {FastifyLoggerOptions} from 'fastify';
 import {PinoLoggerOptions} from 'fastify/types/logger';
@@ -10,7 +11,10 @@ import {openaiPlugin} from './openai-plugin';
 
 init({
   dsn: 'https://50ba4f0897fb12698407b88f62c5cfd9@o126623.ingest.us.sentry.io/4509410186231808',
+  integrations: [nodeProfilingIntegration()],
   tracesSampleRate: 1.0,
+  profileSessionSampleRate: 1.0,
+  profileLifecycle: 'trace',
 });
 
 async function boot() {
