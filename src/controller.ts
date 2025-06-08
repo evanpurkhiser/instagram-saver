@@ -28,7 +28,7 @@ export async function router(server: FastifyInstance) {
       const transcription = await transcribeAudio(openai, audioFile);
       log.info(`Got transcription (${transcription.text.split(/\s+/).length} words)`);
 
-      log.info('Extracting places...');
+      log.info('Extracting details...');
       return queryResponse(openai, transcription.text, [], info);
     }
 
@@ -37,7 +37,7 @@ export async function router(server: FastifyInstance) {
       log.info('Getting all photos...');
       const images = await fetchImages(info.imageUrls);
 
-      log.info('Extracting places...');
+      log.info('Extracting details...');
       return queryResponse(openai, '[no transcription, see photos]', images, info);
     }
 
@@ -53,11 +53,11 @@ export async function router(server: FastifyInstance) {
 
     log.info('Fetching Google Maps URLs...');
     const mapsUrls = await Promise.all(
-      result.places.map(place => fetchGoogleMapsUrl(server.places, place))
+      result.items.map(item => fetchGoogleMapsUrl(server.places, item))
     );
 
-    const json = result.places.map((place, i) => ({
-      ...place,
+    const json = result.items.map((item, i) => ({
+      ...item,
       googleMapsUrl: mapsUrls[i],
       instagramUrl: `https://instagram.com/p/${info.shortCode}`,
     }));

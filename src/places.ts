@@ -1,9 +1,17 @@
 import {PlacesClient} from '@googlemaps/places';
 
-import {PlaceInfo} from './types';
+import {Recommendation} from './types';
 
-export async function fetchGoogleMapsUrl(places: PlacesClient, place: PlaceInfo) {
-  const textQuery = `${place.name} ${place.address ?? ''}`;
+export async function fetchGoogleMapsUrl(places: PlacesClient, item: Recommendation) {
+  const hasAddress = item.type === 'Place' || item.type === 'Event';
+
+  if (!hasAddress) {
+    return null;
+  }
+
+  const location = item.type === 'Place' ? item.address : item.location;
+
+  const textQuery = `${item.name} ${location ?? ''}`;
 
   const fields = [
     'places.displayName',

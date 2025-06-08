@@ -16,10 +16,6 @@ interface InstagramPosts extends CommonInfo {
 
 export type InstagramInfo = InstagramReel | InstagramPosts;
 
-export interface PostResponse {
-  places: PlaceInfo[];
-}
-
 export type PlaceType =
   | 'Restaurant'
   | 'Cafe'
@@ -32,10 +28,36 @@ export type PlaceType =
   | 'Other';
 
 export interface PlaceInfo {
+  type: 'Place';
   name: string;
   address: string | null;
   placeType: PlaceType;
   whatsGood: string;
   vibe: string;
   emoji: string;
+}
+
+export interface EventInfo {
+  type: 'Event';
+  name: string;
+  location: string;
+  date: string | null;
+  time: string | null;
+  description: string;
+  emoji: string;
+}
+
+export interface RecipeInfo {
+  type: 'Recipe';
+  name: string;
+  ingredients: string[];
+  steps: string[];
+  cuisine: string;
+  emoji: string;
+}
+
+export type Recommendation = PlaceInfo | EventInfo | RecipeInfo;
+
+export interface ItemResponse {
+  items: Recommendation[];
 }

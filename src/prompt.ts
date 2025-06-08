@@ -1,78 +1,18 @@
 import dedent from 'dedent';
 import OpenAI from 'openai';
 
-import {PlaceInfo, PlaceType, PostResponse} from './types';
+import {OUTPUT_SCHEMA} from './schema';
+import {ItemResponse} from './types';
 
 const PROMPT_PRELUDE = `
-You are a helpful instagram places assistant. You are given various pieces of
+You are a helpful instagram assistant. You are given various pieces of
 information from an Insstagram Reel or Post. Your job is to determine
-information about the restaurants or places mentioned and prduce a short and
-sweet summary suitable as the note for a saved place in google maps.
+information about the reel or post and produce structured output matching the
+provided schema.
 
 If the transcription apperas to be completely unrelated based on the caption,
 assume it is background music with vocals and ignore it!
 `.trim();
-
-const PLACE_TYPES = [
-  'Restaurant',
-  'Cafe',
-  'Bar',
-  'Gallery',
-  'Museum',
-  'Store',
-  'Outdoors',
-  'Experience',
-  'Other',
-] satisfies PlaceType[];
-
-const PLACE_PROPERTIES = {
-  name: {
-    type: 'string',
-    description: 'The name of the place or restaurant',
-  },
-  address: {
-    type: ['string', 'null'],
-    description: 'The full or partial address of the place, or null if unknown',
-  },
-  placeType: {
-    type: 'string',
-    description: 'The category of place',
-    enum: PLACE_TYPES,
-  },
-  whatsGood: {
-    type: 'string',
-    description: 'A brief list of recommended items to order or things to see or do',
-  },
-  vibe: {
-    type: 'string',
-    description:
-      'A short description of the vibe or atmosphere (e.g., cozy, lively, good for dates)',
-  },
-  emoji: {
-    type: 'string',
-    description: 'A single emoji representing the place',
-  },
-} as const satisfies Record<keyof PlaceInfo, any>;
-
-const OUTPUT_SCHEMA = {
-  $schema: 'https://json-schema.org/draft/2020-12/schema',
-  title: 'PlaceRecommendationContainer',
-  type: 'object',
-  required: ['places'],
-  properties: {
-    places: {
-      type: 'array',
-      description: 'A list of recommended places or restaurants',
-      items: {
-        type: 'object',
-        required: Object.keys(PLACE_PROPERTIES),
-        properties: PLACE_PROPERTIES,
-        additionalProperties: false,
-      },
-    },
-  },
-  additionalProperties: false,
-};
 
 export async function queryResponse(
   openai: OpenAI,
@@ -80,7 +20,7 @@ export async function queryResponse(
   photos: Buffer[],
   instagramInfo: any
 ) {
-  const placeDetails = dedent`
+  const details = dedent`
   **POST LOCATION**: ${instagramInfo.location ?? '<Unknown>'}
 
   **CAPTION**:
@@ -106,7 +46,7 @@ export async function queryResponse(
       },
       {
         role: 'user',
-        content: [{type: 'input_text', text: placeDetails}, ...images],
+        content: [{type: 'input_text', text: details}, ...images],
       },
     ],
 
@@ -115,5 +55,5 @@ export async function queryResponse(
     },
   });
 
-  return JSON.parse(response.output_text) as PostResponse;
+  return JSON.parse(response.output_text) as ItemResponse;
 }
