@@ -53,7 +53,7 @@ export async function router(server: FastifyInstance) {
 
     log.info('Fetching Google Maps URLs...');
     const mapsUrls = await Promise.all(
-      result.items.map(item => fetchGoogleMapsUrl(server.places, item))
+      result.items.map(item => fetchGoogleMapsUrl(server.places, item)),
     );
 
     const json = result.items.map((item, i) => ({

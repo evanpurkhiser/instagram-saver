@@ -18,7 +18,7 @@ export async function queryResponse(
   openai: OpenAI,
   transcription: string,
   photos: Buffer[],
-  instagramInfo: any
+  instagramInfo: any,
 ) {
   const details = dedent`
   **POST LOCATION**: ${instagramInfo.location ?? '<Unknown>'}

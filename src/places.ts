@@ -24,7 +24,7 @@ export async function fetchGoogleMapsUrl(places: PlacesClient, item: Recommendat
       otherArgs: {
         headers: {'X-Goog-FieldMask': fields.join(',')},
       },
-    }
+    },
   );
 
   const results = response[0].places;
