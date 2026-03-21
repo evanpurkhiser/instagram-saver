@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@evanpurkhiser/eslint-config": "^0.25.0",
+    "@evanpurkhiser/oxc-config": "^0.4.0",
     "@types/node": "^22.15.23",
     "oxfmt": "^0.41.0",
     "tsx": "^4.19.4",
