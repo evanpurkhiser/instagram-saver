@@ -11,7 +11,7 @@ interface Params {
   ['*']: string;
 }
 
-// eslint-disable-next-line require-await
+// oxlint-disable-next-line require-await
 export async function router(server: FastifyInstance) {
   const {log, openai} = server;
 
