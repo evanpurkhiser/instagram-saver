@@ -1,5 +1,5 @@
 import ffmpeg from 'fluent-ffmpeg';
-import type OpenAI from 'openai';
+import type {OpenAI} from 'openai';
 import {fetch} from 'undici';
 
 import {PassThrough, Readable} from 'node:stream';

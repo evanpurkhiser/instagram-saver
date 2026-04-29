@@ -1,5 +1,5 @@
 import dedent from 'dedent';
-import type OpenAI from 'openai';
+import type {OpenAI} from 'openai';
 
 import {OUTPUT_SCHEMA} from './schema';
 import type {ItemResponse} from './types';

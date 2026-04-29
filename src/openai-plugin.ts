@@ -1,5 +1,5 @@
 import fp from 'fastify-plugin';
-import OpenAI from 'openai';
+import {OpenAI} from 'openai';
 
 declare module 'fastify' {
   interface FastifyInstance {
