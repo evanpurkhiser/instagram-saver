@@ -1,5 +1,5 @@
 import env from '@fastify/env';
-import {JSONSchemaType} from 'env-schema';
+import type {JSONSchemaType} from 'env-schema';
 import fp from 'fastify-plugin';
 
 interface EnvConfig {

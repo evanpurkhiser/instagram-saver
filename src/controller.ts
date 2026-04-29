@@ -4,7 +4,7 @@ import {fetchImages} from './images';
 import {fetchgInstagramInfo} from './instagram';
 import {fetchGoogleMapsUrl} from './places';
 import {queryResponse} from './prompt';
-import {InstagramInfo} from './types';
+import type {InstagramInfo} from './types';
 import {extractAudioStream, fetchVideo, transcribeAudio} from './video';
 
 interface Params {

@@ -1,6 +1,6 @@
-import {PlacesClient} from '@googlemaps/places';
+import type {PlacesClient} from '@googlemaps/places';
 
-import {Recommendation} from './types';
+import type {Recommendation} from './types';
 
 export async function fetchGoogleMapsUrl(places: PlacesClient, item: Recommendation) {
   const hasAddress = item.type === 'Place' || item.type === 'Event';

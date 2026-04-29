@@ -1,8 +1,8 @@
 import dedent from 'dedent';
-import OpenAI from 'openai';
+import type OpenAI from 'openai';
 
 import {OUTPUT_SCHEMA} from './schema';
-import {ItemResponse} from './types';
+import type {ItemResponse} from './types';
 
 const PROMPT_PRELUDE = `
 You are a helpful instagram assistant. You are given various pieces of

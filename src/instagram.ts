@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio';
 import pRetry from 'p-retry';
 import {fetch} from 'undici';
 
-import {InstagramInfo} from './types';
+import type {InstagramInfo} from './types';
 
 function extractInstagramShortcode(url: string): string | null {
   const match = url.match(/\/(p|reel|tv)\/([A-Za-z0-9\-_]+)/);

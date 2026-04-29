@@ -1,4 +1,4 @@
-import {EventInfo, PlaceInfo, PlaceType, RecipeInfo} from './types';
+import type {EventInfo, PlaceInfo, PlaceType, RecipeInfo} from './types';
 
 const PLACE_TYPES = [
   'Restaurant',

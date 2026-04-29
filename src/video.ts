@@ -1,8 +1,8 @@
 import ffmpeg from 'fluent-ffmpeg';
-import OpenAI from 'openai';
+import type OpenAI from 'openai';
 import {fetch} from 'undici';
 
-import {PassThrough, Readable} from 'stream';
+import {PassThrough, Readable} from 'node:stream';
 
 export async function fetchVideo(mediaUrl: string) {
   const videoRes = await fetch(mediaUrl);
