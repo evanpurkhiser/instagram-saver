@@ -6,6 +6,16 @@
   "license": "ISC",
   "author": "",
   "main": "index.js",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^24.15.0"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.0.0"
+    }
+  },
   "scripts": {
     "dev": "NODE_ENV=development tsx watch src/index.ts",
     "build": "tsc",
@@ -40,9 +50,5 @@
     "oxlint": "^1.62.0",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
-  },
-  "volta": {
-    "node": "22.14.0"
-  },
-  "packageManager": "pnpm@10.12.4"
+  }
 }
