@@ -10,7 +10,9 @@ export async function fetchGoogleMapsUrl(places: PlacesClient, item: Recommendat
   }
 
   const textQuery =
-    item.type === 'Place' ? `${item.name} ${item.address ?? ''}` : item.location;
+    item.type === 'Place'
+      ? [item.name, item.address, item.locationHint].filter(Boolean).join(' ')
+      : item.location;
 
   const fields = [
     'places.displayName',

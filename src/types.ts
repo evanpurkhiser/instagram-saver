@@ -31,6 +31,7 @@ export interface PlaceInfo {
   type: 'Place';
   name: string;
   address: string | null;
+  locationHint: string | null;
   placeType: PlaceType;
   whatsGood: string;
   vibe: string;

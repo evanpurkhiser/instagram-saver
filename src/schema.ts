@@ -26,6 +26,11 @@ const PLACE_PROPERTIES = {
     type: ['string', 'null'],
     description: 'The full or partial address of the place, or null if unknown',
   },
+  locationHint: {
+    type: ['string', 'null'],
+    description:
+      'A geographic hint specific enough to disambiguate the place in a global search. Prefer the most specific level you can confidently infer from the address, post location, caption, transcription, signage, language/script, or other context — for example a neighborhood + city ("Williamsburg, Brooklyn"), city + country ("Paris, France"), or a region ("Catskills, NY", "Tulum"). Fall back to a bare city if that is all the signal supports, and use null only when there is truly no geographic signal at all. Do NOT assume a default location based on the user.',
+  },
   placeType: {
     type: 'string',
     description: 'The category of place',
