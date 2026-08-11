@@ -6,7 +6,7 @@ hooks = [
   { id = "end-of-file-fixer", priority = 1 },
   { id = "mixed-line-ending", priority = 2 },
   { id = "check-merge-conflict", priority = 100 },
-  { id = "check-added-large-files", priority = 100 },
+  { id = "check-added-large-files", exclude = '^src/fixtures/', priority = 100 },
   { id = "check-executables-have-shebangs", priority = 100 },
   { id = "check-shebang-scripts-are-executable", priority = 100 },
   { id = "check-case-conflict", priority = 100 },
@@ -20,7 +20,9 @@ hooks = [
 [[repos]]
 repo = "https://github.com/crate-ci/typos"
 rev = "v1.48.0"
-hooks = [{ id = "typos", args = ["--force-exclude"], priority = 100 }]
+hooks = [
+  { id = "typos", args = ["--force-exclude"], exclude = '^src/fixtures/', priority = 100 },
+]
 
 [[repos]]
 repo = "https://github.com/rhysd/actionlint"
@@ -36,7 +38,7 @@ hooks = [{ id = "zizmor", args = ["--min-severity", "high"], priority = 11 }]
 repo = "https://github.com/evanpurkhiser/prek-personal"
 rev = "v1.0.2"
 hooks = [
-  { id = "oxfmt-system", priority = 10 },
+  { id = "oxfmt-system", exclude = '^src/fixtures/', priority = 10 },
   { id = "shfmt-system", priority = 10 },
   { id = "oxlint-system", priority = 11 },
   { id = "shellcheck-system", priority = 11 },

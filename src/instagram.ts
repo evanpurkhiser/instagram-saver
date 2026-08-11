@@ -9,18 +9,18 @@ function extractInstagramShortcode(url: string): string | null {
   return match ? match[2] : null;
 }
 
-function findKeyDeep(obj: any, targetKey: string): any | null {
+function findMediaDeep(obj: any): Record<string, any> | null {
   if (typeof obj !== 'object' || obj === null) {
     return null;
   }
 
-  if (targetKey in obj) {
-    return obj[targetKey];
+  if ('caption' in obj && ('video_versions' in obj || 'carousel_media' in obj)) {
+    return obj;
   }
 
   for (const key in obj) {
     const value = obj[key];
-    const result = findKeyDeep(value, targetKey);
+    const result = findMediaDeep(value);
     if (result !== null) {
       return result;
     }
@@ -32,26 +32,68 @@ function findKeyDeep(obj: any, targetKey: string): any | null {
 // Not sure how many of these are required, but definitely at least SOME are
 // for it to come back with the json blob as a script tag
 const headers = {
-  accept: 'text/html',
+  accept:
+    'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
   'accept-language': 'en-US,en;q=0.9',
-  'cache-control': 'max-age=0',
-  referer: 'https://www.instagram.com/accounts/onetap/?next=%2F',
-  'sec-ch-ua': '"Not.A/Brand";v="99", "Chromium";v="136"',
-  'sec-ch-ua-full-version-list':
-    '"Not.A/Brand";v="99.0.0.0", "Chromium";v="136.0.7103.114"',
+  'sec-ch-ua': '"Chromium";v="145", "Not:A-Brand";v="99"',
   'sec-ch-ua-mobile': '?0',
-  'sec-ch-ua-model': '""',
-  'sec-ch-ua-platform': '"macOS"',
-  'sec-ch-ua-platform-version': '"15.3.2"',
+  'sec-ch-ua-platform': '"Linux"',
   'sec-fetch-dest': 'document',
   'sec-fetch-mode': 'navigate',
-  'sec-fetch-site': 'same-origin',
+  'sec-fetch-site': 'none',
   'sec-fetch-user': '?1',
   'upgrade-insecure-requests': '1',
   'user-agent':
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36',
-  'viewport-width': '1232',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.0.0 Safari/537.36',
 };
+
+async function fetchPageHtml(url: string) {
+  const response = await fetch(url, {headers});
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Instagram post: ${response.status}`);
+  }
+
+  return response.text();
+}
+
+export function parseInstagramInfo(html: string, shortCode: string): InstagramInfo {
+  const $ = cheerio.load(html);
+
+  const mediaItems = $('script[type="application/json"]')
+    .map((_, el) => $(el).html())
+    .get()
+    .map(json => findMediaDeep(JSON.parse(json)))
+    .filter((data): data is Record<string, any> => data !== null);
+
+  const item = mediaItems[0];
+  if (item === undefined) {
+    throw new Error('Instagram media info missing from page');
+  }
+
+  const caption: string = item.caption.text;
+  const location: string = item.location?.name;
+
+  const common = {
+    caption,
+    location,
+    shortCode,
+  };
+
+  if (item.video_versions) {
+    const mediaUrl: string = item.video_versions[0].url;
+
+    return {type: 'video', mediaUrl, ...common};
+  }
+
+  if (item.carousel_media) {
+    const imageUrls = item.carousel_media.map((media: any) => media.display_uri);
+
+    return {type: 'post', imageUrls, ...common};
+  }
+
+  throw new Error('Unknown media type');
+}
 
 async function doFetch(postUrl: string) {
   const shortCode = extractInstagramShortcode(postUrl);
@@ -60,55 +102,8 @@ async function doFetch(postUrl: string) {
     throw new Error('Missing short code');
   }
 
-  const url = `https://instagram.com/p/${shortCode}/`;
-  const res = await fetch(url, {headers});
-
-  const html = await res.text();
-  const $ = cheerio.load(html);
-
-  const shortcodeInfo = $('script[type="application/json"]')
-    .map((_, el) => $(el).html())
-    .get()
-    .map(json => findKeyDeep(JSON.parse(json), 'xdt_api__v1__media__shortcode__web_info'))
-    .filter(data => data !== null);
-
-  if (shortcodeInfo === null) {
-    throw new Error('shortcode__web_info missing');
-  }
-
-  if (shortcodeInfo[0] === undefined) {
-    throw new Error('Shortcode info missing items dictionary');
-  }
-
-  const items: Array<Record<string, any>> = shortcodeInfo[0]['items'];
-
-  const data = items.map<InstagramInfo>((item: any) => {
-    const caption: string = item.caption.text;
-    const location: string = item.location?.name;
-
-    const common = {
-      caption,
-      location,
-      shortCode,
-    };
-
-    if (item.video_versions) {
-      const mediaUrl: string = item.video_versions[0].url;
-
-      return {type: 'video', mediaUrl, ...common};
-    }
-
-    if (item.carousel_media) {
-      const imageUrls = item.carousel_media.map((media: any) => media.display_uri);
-
-      return {type: 'post', imageUrls, ...common};
-    }
-
-    throw new Error('Unknown media type');
-  });
-
-  // XXX: Can there be more than one items?
-  return data[0];
+  const url = `https://www.instagram.com/p/${shortCode}/`;
+  return parseInstagramInfo(await fetchPageHtml(url), shortCode);
 }
 
 export function fetchgInstagramInfo(postUrl: string) {
