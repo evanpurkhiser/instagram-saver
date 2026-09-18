@@ -2,3 +2,5 @@ allowBuilds:
   '@sentry-internal/node-cpu-profiler': true
   esbuild: true
   protobufjs: true
+minimumReleaseAgeExclude:
+  - '@evanpurkhiser/*'
