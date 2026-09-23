@@ -1,3 +1,7 @@
+> [!NOTE]
+> This project's functionality has been rolled into
+> [`places`](https://github.com/evanpurkhiser/places).
+
 A small API which uses AI to extract place names from Instagram Reels
 ("My top 5 Thai Resturuants in NYC" type videos).
 
